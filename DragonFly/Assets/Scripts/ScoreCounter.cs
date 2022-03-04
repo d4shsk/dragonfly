@@ -5,22 +5,21 @@ using UnityEngine.Events;
 
 public class ScoreCounter : MonoBehaviour
 {
-    [SerializeField] private UnityEvent<float> onScoreChanged;
+    [SerializeField] private UnityEvent<int> onScoreChanged;
 
-    public float score;
+    public int score;
 
-    void Start()
+    private void Start()
     {
         score = 0;
         StartCoroutine(CountScore());
     }
 
     private IEnumerator CountScore() {
-        while (gameObject.activeSelf) {
+        while (true) {
             score++;
             onScoreChanged.Invoke(score);
+            yield return new WaitForSeconds(1);
         }
-
-        yield return new WaitForSeconds(1);
     }
 }

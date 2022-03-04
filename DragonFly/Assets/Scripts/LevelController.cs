@@ -6,26 +6,18 @@ using UnityEngine.Events;
 
 public class LevelController : MonoBehaviour
 {
-    [SerializeField] private UnityEvent onNewLevel;
-
-    [SerializeField] private CloudsGenerator cloudsGenerator;
-    [SerializeField] private ScoreCounter scoreCounter;
-
+    [SerializeField] private UnityEvent<int> onNewLevel;
     [SerializeField] private float scoreBridge; // Первоначальное значение до след уровня
-    
+    [SerializeField] private float nextScoreBridge;
 
-    [SerializeField] private Text textNum;
+    private int level = 0;
 
-    private int level;
-
-    private void FixedUpdate()
-    {
-        if (scoreCounter.score > scoreBridge)
+    public void ApplyNewLevel(int score) {
+        if (score == scoreBridge)
         {
-            scoreBridge += scoreBridge;
-            onNewLevel.Invoke();
-            textNum.text = level.ToString();
             level++;
+            onNewLevel.Invoke(level);
+            scoreBridge += nextScoreBridge;
         }
     }
 }

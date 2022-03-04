@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class UIPresenter : MonoBehaviour
 {
     [SerializeField] private Text scoreText;
-
-    private void Start()
-    {
-        scoreText = GetComponent<Text>();
-    }
+    [SerializeField] private Text levelText;
 
     public void UpdateScore(int score) {
         scoreText.text = score.ToString();
+    }
+
+    public void UpdateLevel(int level)
+    {
+        levelText.text = level.ToString();
     }
 }

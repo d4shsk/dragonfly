@@ -6,13 +6,21 @@ public class CloudsMove : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
 
+    private float currentMovementSpeed;
+
+    private void Start()
+    {
+        currentMovementSpeed = movementSpeed;
+    }
+
+
     private void FixedUpdate()
     {
-        float speed = -movementSpeed * Time.deltaTime;
+        float speed = -currentMovementSpeed * Time.deltaTime;
         transform.Translate(speed, 0, 0);    
     }
 
     public void IncreaseSpeed(float size) {
-        movementSpeed += size;
+        currentMovementSpeed += size;
     }
 }

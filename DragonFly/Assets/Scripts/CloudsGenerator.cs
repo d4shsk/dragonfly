@@ -16,7 +16,7 @@ public class CloudsGenerator : MonoBehaviour
     }
 
     private IEnumerator SpawnClouds() {
-        while (true) {
+        while (true) { // потом убрать вайл тру
             float randomYPos = Random.Range(-4f, 4f);
             GameObject newCloud = Instantiate(cloud, new Vector3(10, randomYPos, 0), Quaternion.identity);
 
