@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class LevelController : MonoBehaviour
 {
+    [SerializeField] private UnityEvent onNewLevel;
+
     [SerializeField] private CloudsGenerator cloudsGenerator;
     [SerializeField] private ScoreCounter scoreCounter;
-    [SerializeField] private CloudsMove cloudsMove;
 
     [SerializeField] private float scoreBridge; // Первоначальное значение до след уровня
-    [SerializeField] private float minTimeTillSpawn; // Минимальная частота генерации облаков
+    
 
     [SerializeField] private Text textNum;
 
@@ -21,14 +23,9 @@ public class LevelController : MonoBehaviour
         if (scoreCounter.score > scoreBridge)
         {
             scoreBridge += scoreBridge;
-
-            if (cloudsGenerator.timeTillSpawn > minTimeTillSpawn) {
-                cloudsGenerator.timeTillSpawn -= 0.5f;
-                cloudsMove.movementSpeed += 1f;
-                level++;
-                textNum.text = level.ToString();
-            }
-            
+            onNewLevel.Invoke();
+            textNum.text = level.ToString();
+            level++;
         }
     }
 }

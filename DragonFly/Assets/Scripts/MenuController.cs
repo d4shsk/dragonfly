@@ -2,72 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class MenuController : MonoBehaviour
 {
+    [SerializeField] private UnityEvent onPauseStarted;
+    [SerializeField] private UnityEvent onPauseStopped;
+    [SerializeField] private UnityEvent onLoadingStartMenu;
+
     [SerializeField] GameObject pauseCanvas;
-    [SerializeField] ScoreCounter scoreCounter;
 
     void Start()
     {
         pauseCanvas.SetActive(false);
     }
 
-    
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            pauseCanvas.SetActive(true);
-            Time.timeScale = 0;
-        }
-    }
 
     public void StartPause() {
-        if (PlayerPrefs.HasKey("Score"))
-        {
-            float oldScore = PlayerPrefs.GetFloat("Score");
-
-            if (scoreCounter.score > oldScore)
-            {
-                PlayerPrefs.SetFloat("Score", scoreCounter.score);
-            }
-        }
-        else
-        {
-            PlayerPrefs.SetFloat("Score", scoreCounter.score);
-        }
+        onPauseStarted.Invoke();
         pauseCanvas.SetActive(true);
-        Time.timeScale = 0;
     }
 
     public void StopPause()
     {
-        Time.timeScale = 1;
+        onPauseStopped.Invoke();
+
         if (!EndGame.restart)
         {
             pauseCanvas.SetActive(false);
         }
         else {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(1); // Надо потом убрать
         }
-        
     }
 
     public void GoToStartMenu() {
 
-        if (PlayerPrefs.HasKey("Score"))
-        {
-            float oldScore = PlayerPrefs.GetFloat("Score");
-
-            if (scoreCounter.score > oldScore)
-            {
-                PlayerPrefs.SetFloat("Score", scoreCounter.score);
-            }
-        }
-        else
-        {
-            PlayerPrefs.SetFloat("Score", scoreCounter.score);
-        }
+        onLoadingStartMenu.Invoke();
 
         SceneManager.LoadScene(0);
     }

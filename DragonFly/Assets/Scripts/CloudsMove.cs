@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class CloudsMove : MonoBehaviour
 {
-    public float movementSpeed;
+    [SerializeField] private float movementSpeed;
 
-    void Update()
+    private void FixedUpdate()
     {
         float speed = -movementSpeed * Time.deltaTime;
         transform.Translate(speed, 0, 0);    
+    }
+
+    public void IncreaseSpeed(float size) {
+        movementSpeed += size;
     }
 }

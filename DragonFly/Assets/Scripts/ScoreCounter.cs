@@ -1,23 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(Text))]
 public class ScoreCounter : MonoBehaviour
 {
+    [SerializeField] private UnityEvent<float> onScoreChanged;
+
     public float score;
-    private Text scoreText;
 
     void Start()
     {
-        scoreText = GetComponent<Text>();
         score = 0;
+        StartCoroutine(CountScore());
     }
 
-    void Update()
-    {
-        score += Time.deltaTime;
-        scoreText.text = ((int) score).ToString();
+    private IEnumerator CountScore() {
+        while (gameObject.activeSelf) {
+            score++;
+            onScoreChanged.Invoke(score);
+        }
+
+        yield return new WaitForSeconds(1);
     }
 }

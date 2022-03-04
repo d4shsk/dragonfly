@@ -4,26 +4,31 @@ using UnityEngine;
 
 public class CloudsGenerator : MonoBehaviour
 {
-    public float timeTillSpawn;
+    [SerializeField] private float timeTillSpawn;
+    [SerializeField] private float minTimeTillSpawn; // Минимальная частота генерации облаков
 
     [SerializeField] private GameObject cloud;
-    [SerializeField] private ScoreCounter scoreCounter;
     
 
     void Start()
     {
-        timeTillSpawn = 2f;
-
-        StartCoroutine(cloudSpawner());
+        StartCoroutine(SpawnClouds());
     }
 
-    private IEnumerator cloudSpawner() {
+    private IEnumerator SpawnClouds() {
         while (true) {
             float randomYPos = Random.Range(-4f, 4f);
             GameObject newCloud = Instantiate(cloud, new Vector3(10, randomYPos, 0), Quaternion.identity);
 
             Destroy(newCloud, 5);
             yield return new WaitForSeconds(timeTillSpawn);
+        }
+    }
+
+    public void DecreaseTimeTillSpawn(float size) {
+        if (timeTillSpawn > minTimeTillSpawn)
+        {
+            timeTillSpawn -= size;
         }
     }
 }
