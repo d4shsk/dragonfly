@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Gun : MonoBehaviour
 {
+    [SerializeField] private UnityEvent<float> onReloadTimeChanged;
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform shotPoint;
 
@@ -16,6 +18,10 @@ public class Gun : MonoBehaviour
         if (reloadTime > 0)
         {
             reloadTime -= Time.deltaTime;
+
+            float timeLeft = startReloadTime - reloadTime;
+
+            onReloadTimeChanged.Invoke(timeLeft);
         }
     }
 
