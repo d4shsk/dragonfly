@@ -23,14 +23,15 @@ public class Gun : MonoBehaviour
 
             onReloadTimeChanged.Invoke(timeLeft);
         }
+
+        if (reloadTime <= 0) {
+            Shoot();
+        }
     }
 
     public void Shoot()
     {
-        if (reloadTime <= 0)
-        {
-            Instantiate(bullet, shotPoint.position, transform.rotation);
-            reloadTime = startReloadTime;
-        }
+        Instantiate(bullet, shotPoint.position, transform.rotation);
+        reloadTime = startReloadTime;
     }
 }

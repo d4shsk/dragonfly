@@ -14,10 +14,7 @@ public class Bullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        currentTime += Time.deltaTime;
-        if (currentTime >= lifetime) {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, lifetime);
 
         BulletMove();
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, transform.up, distance, whatIsSolid);
